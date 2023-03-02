@@ -7,6 +7,8 @@ type Person struct {
 	First string
 }
 
+//Accessor how to store and retive a person
+//when Retrieve person, if person data don not exist, return empty people {} ,error
 type Accessor interface {
 	Save(n int, p Person)
 	Retrieve(n int) Person
