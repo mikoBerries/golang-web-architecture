@@ -19,12 +19,9 @@ func main() {
 	p2 := architecture.Person{
 		First: "James",
 	}
-	ps := architecture.PersonService{
-		//using mongo
-		A: dbm,
-		//or  using postgre
-		//a: dbp,
-	}
+	//using mongo 	>>>dbm
+	//using postgre >>>dbp
+	ps := architecture.NewPersonService(dbm)
 
 	//store person to mongo db
 	architecture.Put(dbm, 1, p1)
