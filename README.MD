@@ -1,64 +1,62 @@
-Golang web architecture with todd mc
-====================================
+tag v1.4.0
+Hands-on Exercises - ninja level 2
+Hands-on exercise #1
+Create an interface and use it.
+video: 56 Hands On 1
 
-Testing golang Code using gomock
------------------------------
-1. get package 
-```bash
-go get "github.com/golang/mock"
-```
-2. Best practice to populate tools:
-    -make tools.go and empty import any tools you use
-    -adding command "// + build tools" so tools will ignored while compiler build code 
-3. Mockgen will generate "Mock" of interface from .go class
-4. in service_test.go we can use a "Mock" of Accessor to testing func Put(a Accessor, n int, p Person) without manualy making type that implementing Accessor interface.
-5. usage example:
-    - Define an interface that you wish to mock.
-```go
-type MyInterface interface {
-    SomeMethod(x int64, y string)
-}
-```
-    - Use mockgen to generate a mock from the interface.
-    - Use the mock in a test:
-```go
-func TestMyThing(t *testing.T) {
-    mockCtrl := gomock.NewController(t)
-    defer mockCtrl.Finish()
 
-    mockObj := something.NewMockMyInterface(mockCtrl)
-    mockObj.EXPECT().SomeMethod(4, "blah")
-    // pass mockObj to a real object and play with it.
-}
-```
+tag v1.4.1
+Hands-on exercise #2
+Recreate the database example using two maps to simulate the databases.
+● Create an “accessor” interface that has two methods
+    ○ save
+    ○ retrieve
+● have your databases implement the “accessor” interface
+● create functions that take in values of type accessor
+    ○ put
+    ○ get
+● use “put” and “get” to store data in either database
+video: 57 Hands On 2
 
-6.  Example of using Call.After to chain expected call order:
-```go
-firstCall := mockObj.EXPECT().SomeMethod(1, "first")
-secondCall := mockObj.EXPECT().SomeMethod(2, "second").After(firstCall)
-mockObj.EXPECT().SomeMethod(3, "third").After(secondCall)
-```
 
-7. Example of using InOrder to declare expected call order:
-```go
-gomock.InOrder(
-    mockObj.EXPECT().SomeMethod(1, "first"),
-    mockObj.EXPECT().SomeMethod(2, "second"),
-    mockObj.EXPECT().SomeMethod(3, "third"),
-)
-```
- 8. Modifying Failure Messages (When a matcher reports a failure, it prints the received (Got) vs the expected (Want) value.)
- - The Want value comes from the matcher's String() method. If the matcher's default output doesn't meet your need.
- ```go
- gomock.WantFormatter(s fmt.Stringer, m Matcher) Matcher
- ```
- - The Got value comes from the object's String() method if it is available. In some cases the output of an object is difficult to read (e.g., []byte) and it   would be helpful for the test to print it differently.use
- ```go
-gomock.GotFormatterAdapter(s GotFormatter, m Matcher) Matcher 
-```
-mockgen command
-----------------
-For an example of the use of mockgen, see the sample/ directory. In simple cases, you will need only the -source flag.
-```bash
-mockgen -source service.go
-```
+tag v1.4.2
+Hands-on exercise #3
+-------------------
+Follow these steps
+● fork
+● clone
+● checkout v1.4.1
+● branch
+● make changes:
+    ○ Organize your code to follow the proper go conventions
+● cmd folder
+    ■ subfolder for what you want to call your executable
+    ■ put in here
+● package main
+● func main
+● create package architecture
+● create database implementations in separate folders
+    ■ mongo
+        ● package mongo
+     ● db.go
+    ■ harddrive
+    ● package harddrive
+    ● db.go
+video: 58 Hands On 3
+
+tag v1.4.3
+Hands-on exercise #4
+Add some documentation, both package level and on your interface
+● Tip: place the package documentation in a doc.go
+video: 59 Hands On 4
+
+
+tag v1.4.4
+Hands-on exercise #5
+-------------------
+In this exercise, copy the contents from one file to a new file. Create a file “file-01.txt” from which
+to copy. To complete this exercise, use
+● io.Copy
+● os.Create
+● os.Open
+video: 60 Hands On 5
