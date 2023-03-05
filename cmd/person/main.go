@@ -2,26 +2,48 @@ package main
 
 import "fmt"
 
-type hotdog int
-
-func (h hotdog) Cook() {
-	fmt.Println("Hotdog has been cooked")
+type user struct {
+	firstName string
 }
 
-type hotFood interface {
-	Cook()
+//dumy db
+type mongoDB map[int]user
+
+func (m mongoDB) save(n int, u user) {
+	m[n] = u
+}
+func (m mongoDB) retrieve(n int) user {
+	return m[n]
 }
 
-func servingFood(hf hotFood) {
-	hf.Cook()
-	fmt.Println("serving hot hotdog")
+type storage map[int]user
+
+func (s storage) save(n int, u user) {
+	s[n] = u
+}
+func (s storage) retrieve(n int) user {
+	return s[n]
+}
+
+type Accessor interface {
+	save(n int, u user)
+	retrieve(n int) user
+}
+
+func put(a Accessor, n int, u user) {
+	a.save(n, u)
+}
+func get(a Accessor, n int) user {
+	return a.retrieve(n)
 }
 
 func main() {
-	var x hotdog = 42
-	var y hotFood
-	y = x
-	fmt.Printf("%T\n", y)
+	mongo := mongoDB{}
+	storage := storage{}
 
-	servingFood(x)
+	put(mongo, 1, user{"this is user mongo DB"})
+	put(storage, 1, user{"this is user storage"})
+
+	fmt.Println(get(mongo, 1))
+	fmt.Println(get(storage, 1))
 }
