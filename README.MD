@@ -26,8 +26,8 @@ Using the code from the previous exercise
 Hands-on exercise #3
 -------------------
 Answer these two questions:
-- you should store LESS or MORE values in context?
-- what are the four common values stored in context that Daniel mentioned?
+- you should store LESS or MORE values in context? LESS
+- what are the four common values stored in context that Daniel mentioned? userID sessionID IPAdress isAdmin
 
 
 Hands-on exercise #4
