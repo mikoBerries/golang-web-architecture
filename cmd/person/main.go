@@ -1,26 +1,21 @@
 package main
 
 import (
+	"context"
 	"fmt"
-
-	architecture "github.com/golang-web-architecture"
-	"github.com/golang-web-architecture/storage/harddrive"
 )
 
+type key string
+
+var session key = "session"
+var userId key = "userId"
+
 func main() {
-	storage := harddrive.Db{}
+	ctx := context.Background()
+	defer ctx.Done()
+	ctx = context.WithValue(ctx, userId, 1)
+	ctx = context.WithValue(ctx, session, "session")
 
-	u1 := architecture.User{
-		First: "James",
-	}
-
-	u2 := architecture.User{
-		First: "Jenny",
-	}
-
-	architecture.Put(storage, 1, u1)
-	architecture.Put(storage, 2, u2)
-
-	fmt.Println(architecture.Get(storage, 1))
-	fmt.Println(architecture.Get(storage, 2))
+	fmt.Println(ctx.Value(session))
+	fmt.Println(ctx.Value(userId))
 }
