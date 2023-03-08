@@ -3,19 +3,18 @@ package main
 import (
 	"context"
 	"fmt"
+
+	s "github.com/golang-web-architecture/session"
 )
 
-type key string
-
-var session key = "session"
-var userId key = "userId"
-
 func main() {
+
 	ctx := context.Background()
 	defer ctx.Done()
-	ctx = context.WithValue(ctx, userId, 1)
-	ctx = context.WithValue(ctx, session, "session")
+	ctx = s.SetUserId(ctx, "1")
+	ctx = s.SetAdmin(ctx, true)
 
-	fmt.Println(ctx.Value(session))
-	fmt.Println(ctx.Value(userId))
+	fmt.Println(s.GetAdmin(ctx))
+	fmt.Println(s.GetUserId(ctx))
+
 }
