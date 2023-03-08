@@ -1,60 +1,40 @@
 package main
 
 import (
-	"context"
+	"errors"
 	"fmt"
-	"runtime"
-	"time"
+	"io/fs"
+	"net"
 )
 
 func main() {
-	//hand on exercise 2
-	/*
-		ctx =context.Background()
-		defer cancelF()
-		ctx.Done()
-		// defer ctx.Done()
-		ctx = s.SetUserId(ctx, "1")
-		ctx = s.SetAdmin(ctx, true)
-
-		fmt.Println(s.GetAdmin(ctx))
-		fmt.Println(s.GetUserId(ctx))
-	*/
-	//hand on exercise 4
-	/*
-		timeout := 2 * time.Second
-		ctx, cancelF := context.WithTimeout(context.Background(), timeout)
-		defer cancelF()
-		time.Sleep(1 * time.Second)
-		select {
-		case <-ctx.Done():
-			fmt.Println("exit")
-		default:
-			fmt.Println("finish")
-		}
-	*/
-
-	ctx, cancelF := context.WithCancel(context.Background())
-	defer cancelF()
-	// defer time.Sleep(2 * time.Second)
-	for i := 0; i < 100; i++ {
-		go func() {
-			for {
-				select {
-				case <-ctx.Done():
-					runtime.Goexit()
-					// return
-				default:
-					fmt.Println("go routine now :", runtime.NumGoroutine())
-					time.Sleep(100 * time.Millisecond)
-				}
-			}
-		}()
-
+	err1 := fs.ErrExist
+	data := "some erorr information"
+	if errors.Is(err1, fs.ErrExist) {
+		fmt.Printf("Erros exist %v", data)
 	}
-	time.Sleep(2 * time.Second)
-	cancelF()
-	fmt.Println("cancelF called ")
-	time.Sleep(1 * time.Second)
-	defer fmt.Println("last go routine:", runtime.NumGoroutine())
+	fmt.Println()
+	//a wraapped error massage
+	fsNotExist := fs.PathError{
+		Op:   "opening file .txt",
+		Path: "pages/files/",
+		Err:  fs.ErrNotExist,
+	}
+	// var err string
+	//error checking from wrapped error massage and costuming each error massage
+	if errors.Is(fsNotExist.Unwrap(), fs.ErrClosed) { //are err closed ?
+		fmt.Printf("file %v%v Are Closed", fsNotExist.Path, fsNotExist.Op)
+	} else if errors.Is(fsNotExist.Unwrap(), fs.ErrInvalid) { //are this err invalid ?
+		fmt.Printf("file %v%v Are invalid", fsNotExist.Path, fsNotExist.Op)
+	} else if errors.Is(fsNotExist.Unwrap(), fs.ErrNotExist) { //are this err not exist ?
+		fmt.Printf("file %v/%v Are not exist please do semothing", fsNotExist.Path, fsNotExist.Op)
+	}
+	var netErr *net.Error
+	if errors.As(err1, &netErr) { // are err1 is net.error?
+		//do something
+		// if err1.Timeout() {
+
+		// }
+	}
+	//some toher eror
 }
