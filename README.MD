@@ -26,4 +26,18 @@ Handling Error in golang
 * Or creating detailed wrapped error massage in method side using fmt.Erorrf() error, then method caller can use .erorr() string
 
 * func As(err, target any) bool
-    - comparing error to other interface erorr. AS are unwraping and search a error
+    - comparing error to other erorr struct.
+    - is err are target type err data are copyed to target
+    - target muust be an address of erorr type 
+
+Thing to know
+-------
+1. error package have this interface
+````go
+type error interface {
+    Error() string
+}
+````
+2. create costume struct eror just by including func Error() string and somethings else
+3. using AS to assert errors.error type to acces field, func etc ...
+4. "%w" in fmt.Errorf("%W",err) %w calling func err.unwarp()error.
