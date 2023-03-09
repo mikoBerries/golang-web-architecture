@@ -30,8 +30,8 @@ Handling Error in golang
     - is err are target type err data are copyed to target
     - target muust be an address of erorr type 
 
-Thing to know
--------
+Things to know
+------------
 1. error package have this interface
 ````go
 type error interface {
