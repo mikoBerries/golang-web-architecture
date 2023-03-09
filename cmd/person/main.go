@@ -1,17 +1,13 @@
 package main
 
-import (
-	"github.com/golang-web-architecture/fileWriter"
-)
+import "fmt"
 
+type meow int
+
+func (m meow) error() string {
+	return fmt.Sprint("error from meow ", m)
+}
 func main() {
-	f := fileWriter.NewWriteFile("file.txt")
-	f.WriteString("Hello World")
-	f.WriteString("More Text!")
-	f.Close()
-
-	err := f.Err()
-	if err != nil {
-		panic(err)
-	}
+	var m meow = 1
+	fmt.Println(m.error())
 }
