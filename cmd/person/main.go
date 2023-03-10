@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
+	"log"
 	"os"
 )
 
@@ -17,9 +19,14 @@ func main() {
 	fileName := "this.txt"
 	createFile := "createthis.txt"
 	err := handOnExercise3(fileName, createFile)
-	if err != nil {
-		fmt.Println(err.Error())
+
+	//using error is to make more meaning full error massage in cmd
+	if err != nil && errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Error: file not found")
+	} else {
+		log.Fatal("in func main while calling handOnExercise3() error val :", err)
 	}
+
 }
 func handOnExercise3(fileName string, createFile string) error {
 	f, err := os.Open(fileName)
