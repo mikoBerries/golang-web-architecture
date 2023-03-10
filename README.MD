@@ -1,43 +1,84 @@
-Tag v1.6.xx
+Tag v1.7.xx
 ===========
 
-Handling Error in golang
-------------------------
-1. Panic 
-    - shutdowning program when called/used
-    - use panic when program need to shutdown if some procces fail.
-2. Log
-    - Standart eror Logging
-        * log.print
-        * log.fatal
-        * log.panic
-3. Fmt 
-    - fmt package printing error use Errorf
-4. special code based on the error
-    - http status code
+Hand On Exercise (Handling Error in golang)
+--------------------------------------------
+Hands-on exercise #1
+-------------------
+● create a type
+● have it implement the error interface
+● create a value of that type
+● pass that into a function, or return it from a function, that takes type error
 
--------
-* func Is(err, target error) bool
-    - comparing error to other error var / new costum error
+Hands-on exercise #2
+--------------------
+Answer these questions
+● Do you ever want to use
+    ○ panic(error)?
+        ■ programmer error happened
+        ■ prints out stack trace
+    ○ log.Panic(error)?
+        ■ programmer error happened
+        ■ prints out stack trace
+    ○ log.Fatal(error)?
+        ■ turns off the program
+        ■ does not print out stack trace
+        ■ appropriate for, “Something has gone so catastrophically wrong, the
+        shouldn’t try to recover.”
+● Do you ever want to return an error without adding any information to the error?
+    ○ always add information about the error
+● Do you ever want to log.Print or fmt.Print an error without adding any information to the
+error?
+    ○ always good to add info
+● Do you always want to use fmt.Errorf()?
+     whenever you’re returning an error, wrap it with more info
+    ○ always doesn’t necessarily as you might have created your own error struct, or
+something
 
-* Wrapping erors using new struct contain detail of eror happend
-    - best practice is add method Unwrap() error, then caller can check the type or error are returned by specify package by comparing using Is()
+Hands-on exercise #3
+-------------------
+Using fmt.Errorf(), handle all errors in a program that does the following:
+● open file #1
+● create file #2
+● copy the contents of file #1 to file #2
 
-* Or creating detailed wrapped error massage in method side using fmt.Erorrf() error, then method caller can use .erorr() string
 
-* func As(err, target any) bool
-    - comparing error to other erorr struct.
-    - is err are target type err data are copyed to target
-    - target muust be an address of erorr type 
+Hands-on exercise #4
+--------------------
+Using the code in the previous example, use errors.Is() to give a special message if the file you
+are trying to open does not exist. Notes:
+● https://godoc.org/os#pkg-variables
 
-Things to know
-------------
-1. error package have this interface
-````go
-type error interface {
-    Error() string
-}
-````
-2. create costume struct eror just by including func Error() string and somethings else
-3. using AS to assert errors.error type to acces field, func etc ...
-4. "%w" in fmt.Errorf("%W",err) %w calling func err.unwarp()error.
+
+Hands-on exercise #5
+--------------------
+Using the code in the previous example, use errors.As() to access *PathError and print out some
+fields or run some methods attached to *PathError. Notes:
+● https://godoc.org/os#Open
+● https://godoc.org/os#Create
+● https://godoc.org/os#PathError
+
+
+Hands-on exercise #6
+--------------------
+Recreate the foo bar moo cat example. To do this, follow these general steps:
+● create these functions, each of which returns a value of type error
+    ■ main calls foo
+        ○ foo
+    ■ foo calls bar
+        ○ bar
+    ■ bar calls moo
+        ○ moo
+    ■ moo calls cat
+        ○ cat
+    ■ cat calls nothing
+● include the error information from any previous calls
+● use errors.Unwrap() to access all of the individual errors
+    ○ name the variables that hold the unwrapped error
+        ■ fooErr
+        ■ barErr
+        ■ mooErr
+        ■ catErr
+        ■ baseErr
+● this err will be nil
+
